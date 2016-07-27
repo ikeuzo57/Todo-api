@@ -1,24 +1,10 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+var todos = [];
+var todoNextId = 1;
 
-var todos = [{
-    id: 1,
-    description: 'Meet mom for launch',
-    completed: false,
-},{
-    id:2,
-    description:'Go to Market',
-    completed: false
-}, {
-    id: 3,
-    description: 'Go to the Mall',
-    completed:true
-},{
-    id: 4,
-    description: 'Go to Library',
-    completed:true
-}]
-
+app.use(bodyParser.json());
 
 // Route
 app.get('/', function(req,res){
@@ -45,7 +31,16 @@ app.get('/todos/:id', function(req, res){
     }
 })
 
+// POST/todos
 
+app.post('/todos', function(req,res){
+    var body = req.body;
+    body.id = todoNextId++;
+    todos.push(body)
+    
+    res.json(body)
+    
+})
 
 
 
